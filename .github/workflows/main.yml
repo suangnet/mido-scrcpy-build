@@ -20,6 +20,19 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Patch Native Modules
+        run: |
+          # Hapus modul native x86 agar tidak crash di ARM64 Mido
+          rm -rf node_modules/node-pty node_modules/ios-device-lib
+          # Buat mock module untuk node-pty
+          mkdir -p node_modules/node-pty
+          echo '{"name":"node-pty","main":"index.js"}' > node_modules/node-pty/package.json
+          echo 'module.exports = { spawn: () => ({ on: () => {}, write: () => {}, resize: () => {}, kill: () => {} }) };' > node_modules/node-pty/index.js
+          # Buat mock module untuk ios-device-lib
+          mkdir -p node_modules/ios-device-lib
+          echo '{"name":"ios-device-lib","main":"index.js"}' > node_modules/ios-device-lib/package.json
+          echo 'module.exports = { IOSDeviceLib: class { on() {} start() {} stop() {} } };' > node_modules/ios-device-lib/index.js
+
       - name: Build Frontend Client
         run: npm run dist
 
