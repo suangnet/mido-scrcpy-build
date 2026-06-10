@@ -21,13 +21,13 @@ jobs:
         run: npm install
 
       - name: Build Frontend Client
-        run: npm run build
+        run: npm run dist
 
       - name: Package Standalone File
         run: |
           mkdir build-output
-          # Pindahkan semua file yang dibutuhkan ke folder output
-          cp -r dist node_modules src public index.js package.json build-output/
+          # Pindahkan folder dist, node_modules dan package.json ke output
+          cp -r dist node_modules package.json build-output/
           cd build-output
           tar -czf ../ws-scrcpy-mido.tar.gz .
 
