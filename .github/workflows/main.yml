@@ -8,10 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone ws-scrcpy Repository
-        run: git clone https://github.com/NetrisTV/ws-scrcpy.git .
+        uses: actions/checkout@v4
+        with:
+          repository: NetrisTV/ws-scrcpy
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18' # Versi stabil
 
@@ -30,7 +32,7 @@ jobs:
           tar -czf ../ws-scrcpy-mido.tar.gz .
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ws-scrcpy-mido-build
           path: ws-scrcpy-mido.tar.gz
